@@ -1,11 +1,11 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import ApplicationLogo from '@/Components/core/ApplicationLogo';
+import Dropdown from '@/Components/core/Dropdown';
+import NavLink from '@/Components/core/NavLink';
+import ResponsiveNavLink from '@/Components/core/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { PropsWithChildren, ReactNode, useState } from 'react';
 
-export default function Authenticated({
+export default function AuthenticatedLayout({
     header,
     children,
 }: PropsWithChildren<{ header?: ReactNode }>) {
