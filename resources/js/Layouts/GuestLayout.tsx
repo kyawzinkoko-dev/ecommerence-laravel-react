@@ -1,4 +1,4 @@
-import ApplicationLogo from '@/Components/core/ApplicationLogo';
+import ApplicationLogo from '@/Components/app/ApplicationLogo';
 import { Link } from '@inertiajs/react';
 import { PropsWithChildren } from 'react';
 
