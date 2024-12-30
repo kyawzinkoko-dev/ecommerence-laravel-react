@@ -4,8 +4,10 @@ import React from "react";
 type Props = {};
 
 export default function Navbar({}: Props) {
-    const { auth } = usePage().props;
-    const { user } = auth;
+    const { auth } = usePage().props || {};
+    const { user } = auth || {};
+    console.log(usePage().props.auth)
+
     return (
         <div>
             <div className="navbar bg-base-100">
