@@ -6,6 +6,7 @@ use App\Enums\ProductStatusEnum;
 use App\Enums\RoleEnum;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Models\Product;
+use App\Models\ProductVariation;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -134,7 +135,8 @@ class ProductResource extends Resource
     {
         return $page->generateNavigationItems([
             Pages\EditProduct::class,
-            Pages\ProductImage::class
+            Pages\ProductImage::class,
+            Pages\ProductVariationTypes::class
         ]);
     }
 
@@ -145,6 +147,7 @@ class ProductResource extends Resource
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
             'images' => Pages\ProductImage::route('/{record}/images'),
+            'variation-types'=>Pages\ProductVariationTypes::route('/{record}/variation-types'),
         ];
     }
 //    public static function canViewAny(): bool
