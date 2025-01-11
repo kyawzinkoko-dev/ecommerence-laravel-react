@@ -10,6 +10,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class ProductVariation extends Model implements  HasMedia
 {
     use InteractsWithMedia;
+    protected $casts=[
+            'variations_type_option_ids'=>'json'
+    ];
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')

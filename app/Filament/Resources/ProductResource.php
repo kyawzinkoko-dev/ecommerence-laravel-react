@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Enums\ProductStatusEnum;
 use App\Enums\RoleEnum;
 use App\Filament\Resources\ProductResource\Pages;
+use App\Filament\Resources\ProductResource\Pages\ProductVariationTypes;
 use App\Models\Product;
 use App\Models\ProductVariation;
 use Filament\Forms;
@@ -136,7 +137,8 @@ class ProductResource extends Resource
         return $page->generateNavigationItems([
             Pages\EditProduct::class,
             Pages\ProductImage::class,
-            Pages\ProductVariationTypes::class
+            Pages\ProductVariationTypes::class,
+            Pages\ProductVariations::class,
         ]);
     }
 
@@ -148,6 +150,7 @@ class ProductResource extends Resource
             'edit' => Pages\EditProduct::route('/{record}/edit'),
             'images' => Pages\ProductImage::route('/{record}/images'),
             'variation-types'=>Pages\ProductVariationTypes::route('/{record}/variation-types'),
+            'variation'=>Pages\ProductVariations::route('/{record}/variation'),
         ];
     }
 //    public static function canViewAny(): bool
