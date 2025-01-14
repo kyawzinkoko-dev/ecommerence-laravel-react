@@ -20,7 +20,7 @@ return new class extends Migration
             $table->longText('description');
             $table->foreignId('department_id')->index()->constrained('departments');
             $table->foreignId('category_id')->index()->constrained('categories');
-            $table->decimal('price',20,4);
+            $table->decimal('price',20,0);
             $table->string('status')->index();
             $table->integer('quantity')->nullable();
             $table->foreignIdFor(User::class,'created_by');

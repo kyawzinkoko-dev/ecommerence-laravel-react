@@ -153,9 +153,13 @@ class ProductResource extends Resource
             'variation'=>Pages\ProductVariations::route('/{record}/variation'),
         ];
     }
-//    public static function canViewAny(): bool
-//    {
-//       $user = auth()->user();
-//       return $user && $user->hasRole(RoleEnum::Vendor->value);
-//    }
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->forVendor();
+    }
+    public static function canViewAny(): bool
+    {
+       $user = auth()->user();
+       return $user && $user->hasRole(RoleEnum::Vendor->value);
+    }
 }

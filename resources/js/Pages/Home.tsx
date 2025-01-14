@@ -1,12 +1,9 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { PageProps } from "@/types";
-import { Head, Link } from "@inertiajs/react";
+import {PageProps, PaginationTypeProps, Product} from "@/types";
+import {Head} from "@inertiajs/react";
+import ProductItem from "@/Components/app/ProductItem";
 
-export default function Welcome({
-    auth,
-    laravelVersion,
-    phpVersion,
-}: PageProps<{ laravelVersion: string; phpVersion: string }>) {
+export default function Home({products}: PageProps<{ products: PaginationTypeProps<Product> }>) {
     const handleImageError = () => {
         document
             .getElementById("screenshot-container")
@@ -20,7 +17,7 @@ export default function Welcome({
 
     return (
         <AuthenticatedLayout>
-            <Head title="Welcome" />
+            <Head title="Home"/>
             <div className="hero bg-base-200 min-h-screen">
                 <div className="hero-content text-center">
                     <div className="max-w-md">
@@ -33,6 +30,12 @@ export default function Welcome({
                         <button className="btn btn-primary">Get Started</button>
                     </div>
                 </div>
+
+            </div>
+            <div className={"grid grid-cols-3 gap-4 p-3 "}>
+                {products.data.map((product, index) => (
+                    <ProductItem product={product} key={product.id}/>
+                ))}
             </div>
         </AuthenticatedLayout>
     );

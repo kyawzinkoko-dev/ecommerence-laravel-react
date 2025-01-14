@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\ProductStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder  ;
+use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -30,7 +33,19 @@ class Product extends Model implements HasMedia
     {
         return $this->belongsTo(Department::class);
     }
+    public function user():BelongsTo
+    {
+        return $this->belongsTo(User::class,'created_by');
+    }
+    public function scopeForVendor(Builder $query): Builder
+    {
 
+        return $query->where('created_by',auth()->user()->id);
+    }
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('status',ProductStatusEnum::Published->value);
+    }
     public function category(): belongsTo
     {
         return $this->belongsTo(Category::class);

@@ -1,4 +1,4 @@
-import { Config } from 'ziggy-js';
+import {Config} from 'ziggy-js';
 
 export interface User {
     id: number;
@@ -15,3 +15,22 @@ export type PageProps<
     };
     ziggy: Config & { location: string };
 };
+export type Product = {
+    id: number,
+    title: string,
+    slug: string,
+    price: number,
+    quantity: number,
+    image: string,
+    user: {
+        id: number,
+        name: string
+    },
+    department: {
+        id: number,
+        name: string
+    }
+}
+export type PaginationTypeProps<T> = {
+    data: Array<T>
+}
