@@ -138,11 +138,9 @@ class ProductVariations extends EditRecord
 
                 $variationTypeOptionIds[] = $option['variation_type_' . $type->id]['id'];
             }
-
             $quantity = $option['quantity'];
             $price = $option['price'];
             $formattedData[] = [
-                'id' => $option['id'],
                 'variations_type_option_ids' => $variationTypeOptionIds,
                 'quantity' => $quantity,
                 'price' => $price,
@@ -159,8 +157,7 @@ class ProductVariations extends EditRecord
         unset($data['variations']);
         $variations = collect($variations)->map(function ($variation) {
             return [
-                'id' => $variation['id'],
-                'variations_type_option_ids' =>json_encode( $variation['variations_type_option_ids']),
+                'variations_type_option_ids' => json_encode($variation['variations_type_option_ids']),
                 'quantity' => $variation['quantity'],
                 'price' => $variation['price'],
             ];

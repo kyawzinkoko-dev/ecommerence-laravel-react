@@ -4,12 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class VariationType extends Model
+class VariationType extends Model implements HasMedia
 {
-    public $timestamps = false;
-    public function options():HasMany{
+    use InteractsWithMedia;
 
-        return $this->hasMany(VariationTypeOption::class,'variation_type_id');
+    public $timestamps = false;
+
+
+    public function options(): HasMany
+    {
+
+        return $this->hasMany(VariationTypeOption::class, 'variation_type_id');
     }
 }

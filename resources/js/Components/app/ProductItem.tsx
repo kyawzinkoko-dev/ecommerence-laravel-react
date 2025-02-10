@@ -6,7 +6,7 @@ import CurrencyFormatter from "@/Components/core/CurrencyFormatter";
 function ProductItem({product}: { product: Product }) {
     return (
         <div className={"card bg-base-100 shadow-xl p-3"}>
-            <Link href={""}>
+            <Link href={route('product.show', product.slug)}>
                 <figure>
                     <img src={product.image} className={"aspect-square object-cover"} alt={product.title}/>
                 </figure>
