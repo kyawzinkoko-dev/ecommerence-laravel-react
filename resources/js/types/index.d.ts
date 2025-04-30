@@ -14,7 +14,28 @@ export type PageProps<
         user: User;
     };
     ziggy: Config & { location: string };
+    totalPrice: number,
+    totalQuantity: number,
+    miniCartItems: CartItems[],
+    csrf_token: string
 };
+export type CartItems = {
+    id: number,
+    product_id: number,
+    title: string,
+    slug: string,
+    price: number,
+    quantity: number,
+    image: string,
+    option_ids: Record<string, number>,
+    options: VariationTypeOption[],
+}
+export type GroupedCartItems ={
+    user:User,
+    items:CartItems[],
+    totalPrice:number,
+    totalQuantity:number,
+}
 export type Product = {
     id: number,
     title: string,
@@ -68,5 +89,33 @@ export type Image = {
     small: string,
     medium: string,
     large: string
+}
+
+export type OrderItem = {
+    id: number,
+    quantity: number,
+    price: number,
+    variation_type_option_ids: number[],
+    product: {
+        id: number,
+        title: string,
+        slug: string,
+        description: string,
+        image:string,
+    }
+}
+export type Order = {
+    id: number,
+    total_price: number,
+    status: string,
+    created_at: string,
+    vendorUser: {
+        id: string,
+        name: string,
+        email: string,
+        store_name: string,
+        store_address: string,
+    }
+    orderItems:OrderItem[]
 }
 

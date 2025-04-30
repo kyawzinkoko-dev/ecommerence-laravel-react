@@ -45,6 +45,11 @@ class Product extends Model implements HasMedia
         return $query->where('created_by', auth()->user()->id);
     }
 
+    public function scopeForWebsite(Builder $query): Builder
+    {
+        return $this->published();
+    }
+
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('status', ProductStatusEnum::Published->value);
@@ -65,5 +70,31 @@ class Product extends Model implements HasMedia
     {
         return $this->hasMany(ProductVariation::class, 'product_id');
     }
-    
+
+    public function getPriceForOptions($optionIds = [])
+    {
+
+        $optionIds = array_values($optionIds);
+        sort($optionIds);
+        foreach ($this->variations() as $variation) {
+            $a = $variation->variation_type_option_ids;
+            sort($a);
+            if ($a == $optionIds) {
+                return $variation->price !== null ? $variation->price : $this->price;
+            }
+        }
+        return $this->price;
+    }
+    public function getImageForOptions(array $optionIds = [])
+    {
+        if ($optionIds) {
+            $optionIds = array_values($optionIds);
+            sort($optionIds);
+            $options = VariationType::where('id', $optionIds)->get();
+            foreach ($options as $option) {
+                $image = $option->getFirstMediaUrl('images', 'small');
+            }
+        }
+        return $this->getFirstMediaUrl('images', 'small');
+    }
 }
