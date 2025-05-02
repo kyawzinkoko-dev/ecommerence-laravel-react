@@ -13,7 +13,11 @@ export type PageProps<
     auth: {
         user: User;
     };
-    ziggy: Config & { location: string };
+        ziggy: Config & { location: string };
+        success: {
+            message: string,
+            time:number
+    }
     totalPrice: number,
     totalQuantity: number,
     miniCartItems: CartItems[],

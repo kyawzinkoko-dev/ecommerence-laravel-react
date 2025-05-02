@@ -46,7 +46,10 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'csrf_token' => csrf_token(),
-            'success' => session('success'),
+            'success' => [
+                'message' => session('success'),
+                'time' => microtime(true)
+            ],
             'error' => session('error'),
             'totalPrice' => $totalPrice,
             'totalQuantity' => $totalQuantity,

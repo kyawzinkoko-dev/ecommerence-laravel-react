@@ -179,7 +179,7 @@ class CartService
             ->first();
         if ($cartItem) {
             $cartItem->update([
-                'quantity' => DB::raw('quantity + ', $quantity)
+                'quantity' => DB::raw('quantity + ' . $quantity)
             ]);
         } else {
             CartItem::create([
