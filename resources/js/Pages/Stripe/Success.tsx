@@ -18,7 +18,7 @@ export default function Success({ orders }: PageProps<{ orders: Order[] }>) {
                     <div className="text-3xl">Payment Was Completed</div>
                 </div>
                 <div className="my-6 text-lg">
-                    Thank you for your purhase. Your payment was completed
+                    Thank you for your purchase. Your payment was completed
                     successfully.
                 </div>
                 {orders.map((order) => (

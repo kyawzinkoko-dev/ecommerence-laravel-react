@@ -78,6 +78,7 @@ class CartService
                     $product = data_get($products, $cartItem['product_id']);
                     if (!$product) continue;
                     $optionInfo = [];
+                    //dd($cartItem['option_ids']);
                     $options = VariationTypeOption::with('variationType')
                         ->whereIn('id', $cartItem['option_ids'])
                         ->get()
@@ -149,7 +150,7 @@ class CartService
         $userId = Auth::id();
         $cartItem = CartItem::where('user_id', $userId)
             ->where('product_id', $productId)
-            ->where('variation_type_option_ids', json_encode($optionIds))
+            ->whereJsonContains('variation_type_option_ids', $optionIds)
             ->first();
         if ($cartItem) {
             $cartItem->update(['quantity' => $quantity]);
@@ -187,7 +188,7 @@ class CartService
                 'product_id' => $productId,
                 'quantity' => $quantity,
                 'price' => $price,
-                'variation_type_option_ids' => json_encode($optionIds)
+                'variation_type_option_ids' => $optionIds
             ]);
         }
     }
@@ -249,9 +250,10 @@ class CartService
                     'product_id' => $cartItem->product_id,
                     'quantity' => $cartItem->quantity,
                     'price' => $cartItem->price,
-                    'option_ids' => $cartItem->variation_type_option_id ?? [],
+                    'option_ids' => $cartItem->variation_type_option_ids ?? [],
                 ];
             })->toArray();
+        // dd($cartItems);
         return $cartItems;
     }
 
@@ -272,7 +274,6 @@ class CartService
                 'user' => $items->first()['user'],
                 'items' => $items->toArray(),
                 'totalQuantity' => $items->sum('quantity'),
-
                 'totalPrice' => $items->sum(fn($item) => $item['price'] * $item['quantity']),
             ])->toArray();
     }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrderStatusEnum;
 use App\Http\Resources\OrderViewResource;
+use App\Mail\CheckoutCompleted;
+use App\Mail\NewOrderMail;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -12,10 +14,13 @@ use Illuminate\Container\Attributes\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log as FacadesLog;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Stripe\Exception\SignatureVerificationException;
 use Stripe\StripeClient;
 use Stripe\Webhook;
+
+use function Illuminate\Log\log;
 
 class StripeController extends Controller
 {
@@ -91,9 +96,11 @@ class StripeController extends Controller
                     $order->website_commsission = ($order->total_price - $order->online_payment_commission) / 100 * $platformFeePercentage;
                     $order->vendor_sub_total = $order->total_price - $order->online_payment_commission - $order->website_commission;
                     $order->save();
+                    Mail::to($order->vendorUser)->send(new NewOrderMail($order));
                 }
-                //send email to buyer
 
+                //send email to buyer
+                Mail::to($orders[0]->user)->send(new CheckoutCompleted($orders));
             case 'checkout.session.completed':
                 $session = $event->data->object;
                 $pi = $session['payment_intent'];
@@ -109,7 +116,7 @@ class StripeController extends Controller
 
                     $productToDeleteFromCart = [
                         ...$productToDeleteFromCart,
-                        ...$order->orderItems->map(fn($item) => $item->prduct_id)->toArray()
+                        ...$order->orderItems->map(fn($item) => $item->product_id)->toArray()
                     ];
 
                     //Reduce Product quantity
@@ -120,7 +127,7 @@ class StripeController extends Controller
                         if ($options) {
                             ksort($options);
                             $variation = $product->variations()
-                                ->where('variation_type_option_ids', $options)
+                                ->where('variations_type_option_ids', $options)
                                 ->first();
                             if ($variation && $variation->quantity != null) {
                                 $variation->quantity -= $orderItem->quantity;
